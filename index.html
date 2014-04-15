@@ -1,5 +1,31 @@
 <p class="fs24 impact gold">Your registration is almost complete.</p>
 <p>Please<strong> review your registration information</strong> for Albion College's <strong>[EVENT_TITLE]</strong>.</p>
 <p>If the information is correct, <strong>click the Process Registration button</strong> below. Your information then will be sent to the Admission Office.</p>
+<div><input type="button" class="button" name="btnBack" value="Back" onclick="billingPage();" /> <input type="button" class="button" name="btnSubmit" value="Process Registration" onclick="checkData()" /></div>
+<script>
+$(document).ready(function(){
 
-<script src="http://devomeka.albion.edu/ew/scripts/moveCaptcha/moveEBCaptchaII.js" type="text/javascript"></script>
+// removing the input instead of hiding it
+
+	var insertedCaptcha = $('#captcha_image').parent().html();	//get the html for the captcha area
+	//$('#captcha_image').parent().parent().hide();				//hide the original captcha row
+	$('#captcha_image').parent().parent().remove();				//remove the original captcha row
+
+	insertedCaptcha = '<div id="insertedCaptcha" style="margin-bottom: 7px;">' + insertedCaptcha + '</div>';	//wrap the inserted section (just to make my life a little easier)
+
+	$('input.button').eq(0).before(insertedCaptcha);			//insert the new captcha
+
+	$('#insertedCaptcha input[name="security_code"]').on('keyup', function(){	//on keyup in the captcha input
+		var captchaCode = $('#insertedCaptcha input.inputbox').val();			//get the value from the inserted captcha
+		$('input[name="security_code"]').eq(1).val(captchaCode);				//insert the captcha
+	});
+
+	//$('input.button').eq(3).parent().parent().hide();			//hide the original button row
+	$('input.button').eq(3).parent().parent().remove();			//remove the original button row
+	$('#captcha_image').css({'padding-top': '7px'});			//pad the captcha image
+
+	$('#insertedCaptcha .inputbox').attr("placeholder", "Type Validation Code Here");
+	$('#insertedCaptcha .inputbox').attr("autocomplete", "off");
+
+});
+</script>
